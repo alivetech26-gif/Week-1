@@ -10,7 +10,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 
-public final class LibraryDatabase {
+public final class LibraryDatabase implements LibraryRepository {
     private static final LibraryDatabase INSTANCE = new LibraryDatabase();
     private static final Path FILE = Path.of("books.json");
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
