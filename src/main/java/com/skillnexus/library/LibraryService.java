@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LibraryService {
-    private final LibraryDatabase database;
+    private final LibraryRepository database;
     private final NotificationService notifications;
     private final List<Book> books;
 
     public LibraryService() { this(LibraryDatabase.getInstance(), new NotificationService()); }
-    public LibraryService(LibraryDatabase database, NotificationService notifications) {
+    public LibraryService(LibraryRepository database, NotificationService notifications) {
         this.database = database;
         this.notifications = notifications;
         this.books = new ArrayList<>(database.loadBooks());
