@@ -6,15 +6,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class LibraryServiceTest {
-    static class MemoryDatabase extends LibraryDatabaseForTest {
+    static class MemoryDatabase implements LibraryRepository {
         private List<Book> saved = new ArrayList<>();
-        @Override public List<Book> loadBooks() { return new ArrayList<>(saved); }
-        @Override public void saveBooks(List<Book> books) { saved = new ArrayList<>(books); }
+        public List<Book> loadBooks() { return new ArrayList<>(saved); }
+        public void saveBooks(List<Book> books) { saved = new ArrayList<>(books); }
     }
     @Test void factoryCreatesBook() { Book book = BookFactory.createBook(1, "Dune", "Frank Herbert"); assertEquals("Dune", book.getTitle()); }
     @Test void createUpdateAndDeleteBook() {
-        MemoryDatabase db = new MemoryDatabase();
-        LibraryService service = new LibraryService(db, new NotificationService());
+        LibraryService service = new LibraryService(new MemoryDatabase(), new NotificationService());
         Book book = service.addBook("Dune", "Frank Herbert");
         assertEquals(1, service.getAllBooks().size());
         service.updateBook(book.getId(), "Dune Messiah", "Frank Herbert");
